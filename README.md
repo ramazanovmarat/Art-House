@@ -26,8 +26,6 @@ cloud_firestore:
 
 flutter_svg:
 
-google_fonts:
-
 flutter_riverpod: 
 
 flutter_local_notifications: 
@@ -43,11 +41,5 @@ share_plus:
 path_provider: 
 
 internet_connection_checker_plus:
-
-cloudinary_public: 
-
-uuid: 
-
-cached_network_image: 
 
 flutter_native_splash: 
