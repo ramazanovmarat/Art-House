@@ -33,9 +33,11 @@
 		<key>NSPhotoLibraryAddUsageDescription</key>
 		<string>Разрешите доступ к сохранению изображений, чтобы вы могли сохранить созданные вами рисунки в галерею</string>
 		<key>NSCameraUsageDescription</key>
-        <string>Разрешение не используется в приложении напрямую, но требуется библиотекой image_picker.</string>
+        <string>Разрешение не используется в приложении напрямую, но требуется библиотекой image_picker</string>
         <key>NSMicrophoneUsageDescription</key>
-        <string>Разрешение не используется в приложении напрямую, но требуется библиотекой image_picker.</string>
+        <string>Разрешение не используется в приложении напрямую, но требуется библиотекой image_picker</string>
+		<key>NSUserNotificationUsageDescription</key>
+        <string>Разрешите доступ к уведомлениям, чтобы информировать вас о сохранении ваших изображений в галерею</string>
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
