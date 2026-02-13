@@ -1,4 +1,5 @@
 import 'package:art_house/src/features/auth/ui/controllers/auth_controller.dart';
+import 'package:art_house/src/features/auth/ui/controllers/auth_page_controller.dart';
 import 'package:art_house/src/features/editor/ui/pages/editor_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,6 +45,7 @@ class GalleryAppbarWidget extends StatelessWidget
                     onPressed: () {
                       Navigator.pop(context);
                       ref.read(authControllerProvider.notifier).logout();
+                      ref.read(authPageController.notifier).state = AuthPageType.login;
                     },
                     child: const Text('Выйти'),
                   ),

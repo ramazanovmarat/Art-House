@@ -17,20 +17,16 @@ class AuthController extends StateNotifier<AsyncValue<User?>> {
   }
 
   Future<void> login(String email, String password) async {
-    state = const AsyncValue.loading();
     try {
-      final user = await _authRepository.signIn(email, password);
-      state = AsyncData(user);
+      await _authRepository.signIn(email, password);
     } catch (error, stackTrace) {
       state = AsyncValue.error(error, stackTrace);
     }
   }
 
-  Future<void> signUp(String email, String password) async {
-    state = const AsyncValue.loading();
+  Future<void> signUp(String email, String password, String name) async {
     try {
-      final user = await _authRepository.signUp(email, password);
-      state = AsyncData(user);
+      await _authRepository.signUp(email, password, name);
     } catch (error, stackTrace) {
       state = AsyncValue.error(error, stackTrace);
     }

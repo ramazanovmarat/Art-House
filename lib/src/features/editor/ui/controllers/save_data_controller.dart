@@ -24,6 +24,7 @@ class SaveDataController extends StateNotifier<AsyncValue<void>> {
   Future<void> saveData({
     required String title,
     required Uint8List imageBytes,
+    String? docId,
   }) async {
     state = const AsyncValue.loading();
     try {
@@ -40,6 +41,7 @@ class SaveDataController extends StateNotifier<AsyncValue<void>> {
         imageBytes: imageBytes,
         title: title,
         authorId: user.uid,
+        docId: docId,
       );
 
       state = const AsyncValue.data(null);

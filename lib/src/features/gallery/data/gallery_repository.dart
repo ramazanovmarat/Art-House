@@ -18,8 +18,9 @@ class GalleryRepositoryImpl implements GalleryRepository {
   @override
   Stream<List<GalleryModel>> getImages(String userId) {
     return _firestore
-        .collection('data')
-        .where('authorId', isEqualTo: userId)
+        .collection('users')
+        .doc(userId)
+        .collection('images')
         .orderBy('date', descending: true)
         .snapshots()
         .map((snapshot) {

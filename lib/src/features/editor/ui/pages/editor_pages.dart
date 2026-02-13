@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -20,7 +21,8 @@ import 'package:share_plus/share_plus.dart';
 class EditorPage extends ConsumerStatefulWidget {
   final String? imageUrl;
   final bool? isEditing;
-  const EditorPage({super.key, this.imageUrl, this.isEditing = false});
+  final String? docId;
+  const EditorPage({super.key, this.imageUrl, this.isEditing = false, this.docId});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _EditorPageState();
@@ -35,18 +37,18 @@ class EditorPage extends ConsumerStatefulWidget {
       super.initState();
       ServiceNotification().requestPermissions();
       if (widget.imageUrl != null) {
-        _loadImageFromUrl(widget.imageUrl!);
+        Future.microtask(() {
+          _loadImageFromUrl(widget.imageUrl!);
+        });
       }
     }
 
     Future<void> _loadImageFromUrl(String url) async {
       try {
 
-        final bundle = NetworkAssetBundle(Uri.parse(url));
-        final data = await bundle.load("");
-        final bytes = data.buffer.asUint8List();
+        final imageDecode = base64Decode(widget.imageUrl ?? '');
 
-        ref.read(editorControllerProvider.notifier).backgroundImage(bytes);
+        ref.read(editorControllerProvider.notifier).backgroundImage(imageDecode);
 
       } catch (e) {
         if (mounted) {
@@ -68,18 +70,18 @@ class EditorPage extends ConsumerStatefulWidget {
       }
     }
 
-    // Сохраненяем фото в галерею
+    // Сохраненяем фото в галерею и в firebase
     Future<void> _savePhoto({bool saveToCloud = true}) async {
       try {
 
         // Используем RenderRepaintBoundary для того чтобы сделать скриншот области рисования,
         // чтобы сохранять только эту область, а не весь экран в галерею
-        // pixelRatio: 3.0 для лучшего качества картинки
+        // pixelRatio: 1.0 поставим наименьшее значение, так как нужно оптимизировать качество изображенеия до самого худшего
         RenderRepaintBoundary? renderRepaintBoundary = _globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
 
         if (renderRepaintBoundary == null) return;
 
-        ui.Image image = await renderRepaintBoundary.toImage(pixelRatio: 3.0);
+        ui.Image image = await renderRepaintBoundary.toImage(pixelRatio: 1.0);
         ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
         Uint8List pngBytes = byteData!.buffer.asUint8List();
 
@@ -105,6 +107,7 @@ class EditorPage extends ConsumerStatefulWidget {
           ref.read(saveDataControllerProvider.notifier).saveData(
             title: 'Art House Image',
             imageBytes: pngBytes,
+            docId: widget.docId,
           );
         }
       } catch (e) {

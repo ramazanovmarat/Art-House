@@ -29,9 +29,13 @@
 		<key>UIMainStoryboardFile</key>
 		<string>Main</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>Нужен доступ к галерее для загрузки и сохранения фото</string>
+		<string>Разрешите доступ к галерее, чтобы вы могли выбрать изображение и открыть его в редакторе для последующего редактирования</string>
 		<key>NSPhotoLibraryAddUsageDescription</key>
-		<string>Нужен доступ, чтобы сохранить ваш рисунок</string>
+		<string>Разрешите доступ к сохранению изображений, чтобы вы могли сохранить созданные вами рисунки в галерею</string>
+		<key>NSCameraUsageDescription</key>
+        <string>Разрешение не используется в приложении напрямую, но требуется библиотекой image_picker.</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>Разрешение не используется в приложении напрямую, но требуется библиотекой image_picker.</string>
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>

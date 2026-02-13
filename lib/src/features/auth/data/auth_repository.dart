@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authRepositoryProvider = Provider((ref) => AuthRepository(FirebaseAuth.instance));
+final authRepositoryProvider = Provider((ref) => AuthRepository(FirebaseAuth.instance, FirebaseFirestore.instance));
 
 class AuthRepository {
+  final FirebaseFirestore _firebaseFirestore;
   final FirebaseAuth _firebaseAuth;
-  AuthRepository(this._firebaseAuth);
+  AuthRepository(this._firebaseAuth, this._firebaseFirestore);
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
@@ -20,10 +22,21 @@ class AuthRepository {
   }
 
   // метод для регистрации
-  Future<User?> signUp(String email, String password) async {
+  Future<User?> signUp(String email, String password, String name) async {
     try {
       final createAccount = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      return createAccount.user;
+      final user = createAccount.user;
+
+      if(user != null) {
+        await _firebaseFirestore.collection('users').doc(user.uid).set({
+          'name': name,
+          'email': email,
+          'createdAccount': DateTime.now(),
+        });
+      }
+
+      return user;
+
     } on FirebaseAuthException catch (e) {
       throw _firebaseErrors(e);
     }

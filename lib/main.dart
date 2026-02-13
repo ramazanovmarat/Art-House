@@ -1,7 +1,7 @@
 import 'package:art_house/src/core/background_app.dart';
 import 'package:art_house/src/core/service_notification.dart';
 import 'package:art_house/src/features/auth/ui/controllers/auth_controller.dart';
-import 'package:art_house/src/features/auth/ui/pages/login_page.dart';
+import 'package:art_house/src/features/auth/ui/pages/auth_page.dart';
 import 'package:art_house/src/features/gallery/ui/pages/gallery_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -36,15 +36,15 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: authState.when(
-        loading: () =>
-            BackgroundApp(
-              child: Center(child: CircularProgressIndicator(color: Colors.white)),
-            ),
-        error: (e, _) =>
-            BackgroundApp(
-              child: Center(child: Text(e.toString(), style: TextStyle(color: Colors.white))),
-            ),
-        data: (user) => user == null ? LoginPage() : GalleryPage(),
+        loading: () => BackgroundApp(
+          child: const Center(child: CircularProgressIndicator(color: Colors.white)),
+        ),
+        error: (_, _) {
+          return const AuthPageSwitch();
+        },
+        data: (user) => user == null
+            ? const AuthPageSwitch()
+            : const GalleryPage(),
       ),
     );
   }
